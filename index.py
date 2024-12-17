@@ -136,6 +136,46 @@ class DoctorManager():
         print(f"\nDoctor whose ID is {new_doc.get_doctor_id()} has been added")
 
 
+class Patient:
+    def __init__(self, pid='', name='', disease='', gender='', age=''):
+        self._pid = pid
+        self._name = name
+        self._disease = disease
+        self._gender = gender
+        self._age = age
+    
+    def get_pid(self):
+        return self._pid
+    
+    def get_name(self):
+        return self._name
+    
+    def get_disease(self):
+        return self._disease
+    
+    def get_gender(self):
+        return self._gender
+    
+    def get_age(self):
+        return self._age
+    
+    def set_pid(self, new_pid):
+        self._pid = new_pid
+    
+    def set_name(self, new_name):
+        self._name = new_name
+    
+    def set_disease(self, new_disease):
+        self._disease = new_disease
+    
+    def set_gender(self, new_gender):
+        self._gender = new_gender
+    
+    def set_age(self, new_age):
+        self._age = new_age
+    
+    def __str__(self):
+        return f"{self._pid}_{self._name}_{self._disease}_{self._gender}_{self._age}"
 
 
 
