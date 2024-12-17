@@ -209,7 +209,7 @@ class PatientManager:
         patient.close()
 
     def search_patient_by_id(self):
-        pat_id=input('Enter the Doctor ID: ')
+        pat_id=input('Enter the Patient ID: ')
         for patient in self.patients:
             if patient.get_pid()==pat_id:
                 self.display_patient_info(patient)
@@ -222,7 +222,7 @@ class PatientManager:
         print(f'{patient.get_pid():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
 
     def edit_patient_info_by_id(self):
-        pat_id=input('Enter the Doctor name: ')
+        pat_id=input('Enter the Patient name: ')
         for patient in self.patients:
             if patient.get_pid() == pat_id:
                 patient.set_name(input("Enter new Name: "))
@@ -240,7 +240,7 @@ class PatientManager:
             print(f'{patient.get_pid():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
 
     def write_list_of_patients_to_file(self):
-        patient=open('pateints.txt', 'w')
+        patient=open('patients.txt', 'w')
         for i in self.patients:
             patient.write(self.format_patient_info_for_file(patient) + '\n')
 
