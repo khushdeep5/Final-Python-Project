@@ -46,7 +46,7 @@ class Doctor:
     def __str__(self):
         return f"{self._doctor_id}_{self._name}_{self._specialization}_{self._working_time}_{self._qualification}_{self._room_number}"
     
-class DoctorManager():
+class DoctorManager:
     #contrusctor
     def __init__(self):
         self.doctors=[]
@@ -93,7 +93,7 @@ class DoctorManager():
     def search_doctor_by_name(self):
         doc_name=input('Enter the Doctor name: ')
         for doctor in self.doctors:
-            if doctor.get_doctor_name()==doc_name:
+            if doctor.get_name()==doc_name:
                 self.display_doctor_info(doctor)
                 break
         print(f"Can't find the doctor ...........")
@@ -123,22 +123,22 @@ class DoctorManager():
             print(f'{doctor.get_doctor_id():<6}{doctor.get_doctor_name():<20}{doctor.get_specialization():<16}{doctor.get_working_time():<16} {doctor.get_qualification():<16} {doctor.get_room_number()}')
 
     def write_list_of_doctors_to_file(self):
-        doctor=open('doctors.txt', 'w')
-        for i in self.doctors:
-            doctor.write(self.format_dr_info(doctor) + '\n')
+        file=open('doctors.txt', 'w')
+        for doctor in self.doctors:
+            file.write(self.format_dr_info(doctor) + '\n')
 
     def add_dr_to_file(self):
         new_doc=self.enter_dr_info()
         self.doctors.append(new_doc)
 
-        doctor=open('doctors.txt', 'a')
-        doctor.write(self.format_dr_info(new_doc)+ '\n')
+        file=open('doctors.txt', 'a')
+        file.write(self.format_dr_info(new_doc)+ '\n')
         print(f"\nDoctor whose ID is {new_doc.get_doctor_id()} has been added")
 
 
-class Patient():
+class Patient:
     def __init__(self, pid='', name='', disease='', gender='', age=''):
-        self.pid = pid
+        self._pid = pid
         self._name = name
         self._disease = disease
         self._gender = gender
@@ -160,7 +160,7 @@ class Patient():
         return self._age
     
     def set_pid(self, new_pid):
-        self.p_id = new_pid
+        self._pid = new_pid
     
     def set_name(self, new_name):
         self._name = new_name
@@ -175,9 +175,9 @@ class Patient():
         self._age = new_age
     
     def __str__(self):
-        return f"{self.p_id}_{self._name}_{self._disease}_{self._gender}_{self._age}"
+        return f"{self._pid}_{self._name}_{self._disease}_{self._gender}_{self._age}"
 
-class PatientManager():
+class PatientManager:
     def __init__(self):
         self.patients = []
         self.read_patients_file()
@@ -211,7 +211,7 @@ class PatientManager():
     def search_pateint_by_id(self):
         pat_id=input('Enter the Doctor ID: ')
         for patient in self.patients:
-            if patient.get_p_id()==pat_id:
+            if patient.get_pid()==pat_id:
                 self.display_patient_info(patient)
                 break      
         print(f"Can't find the doctor ...........")
@@ -224,30 +224,35 @@ class PatientManager():
     def edit_patient_info_by_id(self):
         pat_id=input('Enter the Doctor name: ')
         for patient in self.patients:
-            if patient.get_pid()==pat_id:
-                self.display_patient_info(patient)
-                break
+            if patient.get_pid() == pat_id:
+                patient.set_name(input("Enter new Name: "))
+                patient.set_disease(input("Enter new disease: "))
+                patient.set_gender(input("Enter new gender: "))
+                patient.set_age(input("Enter new age: "))
+                
+                self.write_list_of_patients_to_file()
+                return
         print(f"Can't find the doctor ...........")
 
     def display_patient_list(self):
-        print(f'ID    Name                disease      Gender         Age')
+        print(f'\nID    Name                disease      Gender         Age')
         for patient in self.patients:
-            print(f'{patient.get_p_id():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
+            print(f'{patient.get_pid():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
 
     def write_list_of_patients_to_file(self):
         patient=open('pateints.txt', 'w')
         for i in self.patients:
-            patient.write(self.format_patient_info(patient) + '\n')
+            patient.write(self.format_patient_info_for_file(patient) + '\n')
 
     def add_patient_to_file(self):
         new_pat=self.enter_patient_info()
         self.patients.append(new_pat)
 
-        patient=open('patients.txt', 'a')
-        patient.write(self.format_patient_info_for_file(new_pat)+ '\n')
-        print(f"\nPatient whose ID is {new_pat.get_p_id()} has been added")
+        file=open('patients.txt', 'a')
+        file.write(self.format_patient_info_for_file(new_pat)+ '\n')
+        print(f"\nPatient whose ID is {new_pat.get_pid()} has been added")
 
-class Management():
+class Management:
     def __init__(self):
         self.doctor_manager = DoctorManager()
         self.patient_manager = PatientManager()
