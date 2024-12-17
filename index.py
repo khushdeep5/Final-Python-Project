@@ -53,7 +53,7 @@ class DoctorManager():
         self.read_doctor_file()
 
     #formatiing doctors info
-    def format_dr_info(doctor):
+    def format_dr_info(self, doctor):
        return f"{doctor.doctor_id}_{doctor.name}_{doctor.specialization}_{doctor.working_time}_{doctor.qualification}_{doctor.room_number}"
 
     #entering doctor info
@@ -100,7 +100,7 @@ class DoctorManager():
         
     def display_doctor_info(self,doctor):
         print(f'ID    Name                Speciality      Timings          Qualification    Room Number')
-        print(f'{doctor.get_doctor_id():<6}{doctor.get_doctor_name():<20}{doctor.get_specialization():<16}{doctor.get_working_time():<16} {doctor.get_qualification():<16} {doctor.get_room_number()}')
+        print(f'{doctor.get_doctor_id():<6}{doctor.get_name():<20}{doctor.get_specialization():<16}{doctor.get_working_time():<16} {doctor.get_qualification():<16} {doctor.get_room_number()}')
 
     def edit_doctor_info(self):
         search_id = input("Please enter the id of the doctor that you want to edit their information: ")
@@ -124,7 +124,7 @@ class DoctorManager():
 
     def write_list_of_doctors_to_file(self):
         doctor=open('doctors.txt', 'w')
-        for i in self.doctor:
+        for i in self.doctors:
             doctor.write(self.format_dr_info(doctor) + '\n')
 
     def add_dr_to_file(self):
@@ -136,15 +136,15 @@ class DoctorManager():
         print(f"\nDoctor whose ID is {new_doc.get_doctor_id()} has been added")
 
 
-class Patient:
-    def __init__(self, p_id='', name='', disease='', gender='', age=''):
-        self.p_id = p_id
+class Patient():
+    def __init__(self, pid='', name='', disease='', gender='', age=''):
+        self.pid = pid
         self._name = name
         self._disease = disease
         self._gender = gender
         self._age = age
     
-    def get_p_id(self):
+    def get_pid(self):
         return self._pid
     
     def get_name(self):
@@ -177,32 +177,32 @@ class Patient:
     def __str__(self):
         return f"{self.p_id}_{self._name}_{self._disease}_{self._gender}_{self._age}"
 
-class PatientManager:
+class PatientManager():
     def __init__(self):
         self.patients = []
         self.read_patients_file()
     
     def format_patient_info_for_file(self, patient):
-        return f"{patient.get_p_id()}_{patient.get_name()}_{patient.get_disease()}_{patient.get_gender()}_{patient.get_age()}"
+        return f"{patient.get_pid()}_{patient.get_name()}_{patient.get_disease()}_{patient.get_gender()}_{patient.get_age()}"
     
     def enter_patient_info(self):
-        p_id = input("Enter Patient id: ")
+        pid = input("Enter Patient id: ")
         name = input("Enter Patient name: ")
         disease = input("Enter Patient disease: ")
         gender = input("Enter Patient gender: ")
         age = input("Enter Patient age: ")
         
-        return Patient(p_id, name, disease, gender, age)
+        return Patient(pid, name, disease, gender, age)
     
     def read_patients_file(self):
-        patient=open('doctors.txt','r')
+        patient=open('patients.txt','r')
         lines=patient.readlines()
 
         for line in lines:
             entry=line.split('_')
-            p_id,name,disease,gender,age=entry
+            pid,name,disease,gender,age= entry
 
-            p_entry=Patient(p_id,name,disease,gender,age)
+            p_entry=Patient(pid,name,disease,gender,age)
 
             self.patients.append(p_entry)
 
@@ -219,12 +219,12 @@ class PatientManager:
     def display_patient_info(self,patient):
         
         print(f'ID    Name                disease      Gender         Age')
-        print(f'{patient.get_p_id():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
+        print(f'{patient.get_pid():<6}{patient.get_name():<15}{patient.get_disease():<12}{patient.get_gender():<12} {patient.get_age():<12}')
 
     def edit_patient_info_by_id(self):
         pat_id=input('Enter the Doctor name: ')
         for patient in self.patients:
-            if patient.get_p_id()==pat_id:
+            if patient.get_pid()==pat_id:
                 self.display_patient_info(patient)
                 break
         print(f"Can't find the doctor ...........")
@@ -247,7 +247,7 @@ class PatientManager:
         patient.write(self.format_patient_info_for_file(new_pat)+ '\n')
         print(f"\nPatient whose ID is {new_pat.get_p_id()} has been added")
 
-class Management:
+class Management():
     def __init__(self):
         self.doctor_manager = DoctorManager()
         self.patient_manager = PatientManager()
