@@ -86,7 +86,7 @@ class DoctorManager():
         doc_id=input('Enter the Doctor ID: ')
         for doctor in self.doctors:
             if doctor.get_doctor_id()==doc_id:
-                self.display_doctor_list(doctor)
+                self.display_doctor_info(doctor)
                 break
                 
         print(f"Can't find the doctor ...........")
@@ -94,10 +94,54 @@ class DoctorManager():
         doc_name=input('Enter the Doctor name: ')
         for doctor in self.doctors:
             if doctor.get_doctor_name()==doc_name:
-                self.display_doctor_list(doctor)
+                self.display_doctor_info(doctor)
                 break
         print(f"Can't find the doctor ...........")
         
-    def display_doctor_list(self,doctor):
+    def display_doctor_info(self,doctor):
         print(f'ID    Name                Speciality      Timings          Qualification    Room Number')
         print(f'{doctor.get_doctor_id():<6}{doctor.get_doctor_name():<20}{doctor.get_specialization():<16}{doctor.get_working_time():<16} {doctor.get_qualification():<16} {doctor.get_room_number()}')
+
+    def edit_doctor_info(self):
+        search_id = input("Please enter the id of the doctor that you want to edit their information: ")
+        for doctor in self.doctors:
+            if doctor.get_doctor_id() == search_id:
+                doctor.set_name(input("Enter new Name: "))
+                doctor.set_specialization(input("Enter new Specilist in: "))
+                doctor.set_working_time(input("Enter new Timing: "))
+                doctor.set_qualification(input("Enter new Qualification: "))
+                doctor.set_room_number(input("Enter new Room number: "))
+                
+                self.write_list_of_doctors_to_file()
+                print(f"\nDoctor whose ID is {search_id} has been edited")
+                return
+        print("Cannot find the doctor …...")
+
+    def display_doctors_list(self):
+        print(f'ID    Name                Speciality      Timings          Qualification    Room Number')
+        for doctor in self.doctors:
+            print(f'{doctor.get_doctor_id():<6}{doctor.get_doctor_name():<20}{doctor.get_specialization():<16}{doctor.get_working_time():<16} {doctor.get_qualification():<16} {doctor.get_room_number()}')
+
+    def write_list_of_doctors_to_file(self):
+        doctor=open('doctors.txt', 'w')
+        for i in self.doctor:
+            doctor.write(self.format_dr_info(doctor) + '\n')
+
+    def add_dr_to_file(self):
+        new_doc=self.enter_dr_info()
+        self.doctors.append(new_doc)
+
+        doctor=open('doctors.txt', 'a')
+        doctor.write(self.format_dr_info(new_doc)+ '\n')
+        print(f"\nDoctor whose ID is {new_doc.get_doctor_id()} has been added")
+
+
+
+
+
+
+
+
+
+
+        
